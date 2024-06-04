@@ -1,12 +1,20 @@
 export default abstract class Component extends HTMLElement
 {
-    static tagName: string;
-
+    /**
+     * Called each time a component is mounted to the DOM
+     *
+     * @returns {void}
+     */
     connectedCallback(): void
     {
         this.render();
     }
 
+    /**
+     * Renders the template contents.
+     *
+     * @returns {void}
+     */
     private render(): void
     {
         this.append(this.template());

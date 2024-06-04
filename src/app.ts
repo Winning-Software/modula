@@ -1,28 +1,10 @@
 import components from '../config/components';
-import IModulaOptions from './Interface/IModulaOptions';
-import IComponentDefinition from './Interface/IComponentDefinition';
-
-class Modula
-{
-    constructor(options: IModulaOptions = {}) {
-        this.setup(options);
-    }
-
-    private setup(options: IModulaOptions) {
-         this.registerComponents(options);
-    }
-
-    private registerComponents(options: IModulaOptions) {
-        if (options.components !== undefined) {
-            options.components.forEach((component: IComponentDefinition) => {
-                customElements.define(component.tag, component.component);
-            });
-        }
-    }
-}
+import routes from '../config/routes';
+import Modula from './Core/Modula';
+import TemplateComponent from './Components/TemplateComponent';
 
 const app: Modula = new Modula({
     components: components,
+    routes: routes,
+    template: TemplateComponent,
 });
-
-document.body.append(document.createElement('home-page'));

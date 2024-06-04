@@ -4,4 +4,5 @@ export default interface IRoute
 {
     path: string;
     component: new () => Component;
+    pattern?: RegExp;
 }
