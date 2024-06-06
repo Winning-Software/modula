@@ -1,5 +1,7 @@
-export default abstract class Component extends HTMLElement
+export default abstract class Component<T = {}> extends HTMLElement
 {
+    public props: T;
+
     /**
      * Called each time a component is mounted to the DOM
      *

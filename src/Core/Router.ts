@@ -1,6 +1,7 @@
 import IRoute from '../Interface/IRoute';
 import Modula from './Modula';
 import Component from '../Components/Component';
+import PageNotFoundComponent from '../Components/PageNotFoundComponent';
 
 export default class Router
 {
@@ -10,6 +11,10 @@ export default class Router
     constructor(app: Modula)
     {
         this.app = app;
+
+        window.addEventListener('popstate', (event: PopStateEvent) => {
+            this.loadRoute(location.pathname);
+        });
     }
 
     public addRoute(route: IRoute): void
@@ -19,7 +24,7 @@ export default class Router
         this.routes.push(route);
     }
 
-    public navigate(path: string, pushState: boolean = true)
+    public navigate(path: string, pushState: boolean = true): void
     {
         if (pushState) {
             history.pushState({}, '', path);
@@ -28,29 +33,47 @@ export default class Router
         this.loadRoute(path);
     }
 
-    private loadRoute(path: string)
+    private loadRoute(path: string): void
     {
         for (const route of this.routes) {
             const match = path.match(route.pattern);
 
             if (!match) continue;
 
-            console.log(`Matched route ${route.path}`);
-
             const component: Component = document.createElement(this.app.findComponentTag(route.component)) as Component;
-            const slot: HTMLSlotElement = this.app.getContainer().querySelector('slot');
+            const params = this.extractParams(route, match);
 
-            if (slot) {
-                slot.innerHTML = '';
-                slot.append(component);
-            } else {
-                this.app.getContainer().innerHTML = '';
-                this.app.getContainer().append(component);
-            }
+            this.mountComponent(component);
 
             return;
         }
 
-        // Handle 404
+        this.mountComponent(document.createElement(this.app.findComponentTag(PageNotFoundComponent)) as Component);
+    }
+
+    private mountComponent(component: Component): void
+    {
+        const slot: HTMLSlotElement = this.app.getContainer().querySelector('slot');
+
+        if (slot) {
+            slot.innerHTML = '';
+            slot.append(component);
+        } else {
+            this.app.getContainer().innerHTML = '';
+            this.app.getContainer().append(component);
+        }
+    }
+
+    private extractParams(route: IRoute, match: RegExpMatchArray): { [key: string]: string }
+    {
+        const keys: string[] = route.path.match(/:(\w+)/g) || [];
+        const values = match.slice(1);
+        const params: { [key: string]: string } = {};
+
+        keys.forEach((key, i) => {
+            params[key.slice(1)] = values[i];
+        });
+
+        return params;
     }
 }

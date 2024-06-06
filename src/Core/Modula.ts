@@ -6,31 +6,28 @@ import IRoute from '../Interface/IRoute';
 
 export default class Modula
 {
-    private readonly root: HTMLElement;
+    private root: HTMLElement;
     private router: Router;
     private template: Component;
     private components: IComponentDefinition[] = [];
 
     constructor(options: IModulaOptions = {})
     {
-        this.root = document.createElement('div');
-        this.root.id = 'root';
-        document.body.append(this.root);
-
         this.setup(options);
         this.goToPage(location.pathname, false);
     }
 
     private setup(options: IModulaOptions)
     {
-        this.registerComponents(options);
+        this.createRoot();
+        this.registerComponents(options.components ?? []);
 
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
             this.root.append(this.template);
         }
 
-        this.registerRoutes(options);
+        this.registerRoutes(options.routes ?? []);
 
         document.addEventListener('click', (event: MouseEvent) => {
             if (event.target.constructor.name === 'HTMLAnchorElement') {
@@ -38,30 +35,33 @@ export default class Modula
 
                 const target: HTMLAnchorElement = event.target as HTMLAnchorElement;
 
-                this.router.navigate(target.pathname);
+                this.goToPage(target.pathname);
             }
         });
     }
 
-    private registerComponents(options: IModulaOptions)
+    private createRoot(): void
     {
-        if (options.components !== undefined) {
-            options.components.forEach((component: IComponentDefinition) => {
-                customElements.define(component.tag, component.component);
-                this.components.push(component);
-            });
-        }
+        this.root = document.createElement('div');
+        this.root.id = 'root';
+        document.body.append(this.root);
     }
 
-    private registerRoutes(options: IModulaOptions)
+    private registerComponents(components: IComponentDefinition[]): void
+    {
+        components.forEach((component: IComponentDefinition) => {
+            customElements.define(component.tag, component.component);
+            this.components.push(component);
+        });
+    }
+
+    private registerRoutes(routes: IRoute[]): void
     {
         this.router = new Router(this);
 
-        if (options.routes !== undefined) {
-            options.routes.forEach((route: IRoute) => {
-                this.router.addRoute(route);
-            });
-        }
+        routes.forEach((route: IRoute) => {
+            this.router.addRoute(route);
+        });
     }
 
     public goToPage(path: string, pushState: boolean = true): void
