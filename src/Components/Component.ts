@@ -35,9 +35,7 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     private render(): void
     {
-        console.log(`Rendering ${this.constructor.name}`);
         this.append(this.template());
-        console.log(this);
     }
 
     protected async fetchData(): Promise<any>

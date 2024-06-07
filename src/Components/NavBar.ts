@@ -11,12 +11,6 @@ export default class NavBar extends Component
                     <li>
                         <a href="/">Home</a>
                     </li>
-                    <li>
-                        <a href="/about">About</a>
-                    </li>
-                    <li>
-                        <a href="/profile/1">Profile</a>
-                    </li>
                 </ul>
             </nav>
         `;
