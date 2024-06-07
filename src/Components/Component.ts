@@ -11,6 +11,7 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     connectedCallback(): void
     {
+        this.setPropsFromAttributes();
         this.fetchData().then(data => {
             this.data = data;
             this.render();
@@ -44,4 +45,20 @@ export default abstract class Component<T = {}> extends HTMLElement
     }
 
     abstract template(): HTMLElement;
+
+    private setPropsFromAttributes(): void
+    {
+        const attrs: string[] = this.getAttributeNames();
+        const props: any = {};
+
+        attrs.forEach((attr: string) => {
+            try {
+                props[attr] = JSON.parse(this.getAttribute(attr) || '');
+            } catch (e) {
+                props[attr] = this.getAttribute(attr);
+            }
+        });
+
+        this.props = props as T;
+    }
 }
