@@ -10,8 +10,12 @@ export default class TemplateComponent extends Component
                 <h1>My App</h1>
                 <nav-bar></nav-bar>
             </header>
-            <slot></slot>
-            <footer></footer>
+            <main>
+                <slot></slot>
+            </main>
+            <footer>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, rem!</p>
+            </footer>
         `;
     }
 }
