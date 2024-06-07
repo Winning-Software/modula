@@ -1,8 +1,10 @@
+import bundledComponents from '../../config/components';
 import IComponentDefinition from '../Interface/IComponentDefinition';
 import IModulaOptions from '../Interface/IModulaOptions';
 import Component from '../Components/Component';
 import Router from './Router';
 import IRoute from '../Interface/IRoute';
+import ModulaPageNotFound from '../Components/ModulaPageNotFound';
 
 export default class Modula
 {
@@ -10,24 +12,34 @@ export default class Modula
     private router: Router;
     private template: Component;
     private components: IComponentDefinition[] = [];
+    private pageNotFound: new () => Component;
 
     constructor(options: IModulaOptions = {})
     {
         this.setup(options);
-        this.goToPage(location.pathname, false);
     }
 
     private setup(options: IModulaOptions)
     {
         this.createRoot();
+        this.registerComponents(bundledComponents);
         this.registerComponents(options.components ?? []);
+        this.registerRoutes(options.routes ?? []);
+
+        if (options.pageNotFound !== undefined) {
+            this.pageNotFound = options.pageNotFound;
+        }
 
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
             this.root.append(this.template);
-        }
 
-        this.registerRoutes(options.routes ?? []);
+            this.template.addEventListener('componentRendered', () => {
+                this.goToPage(location.pathname, false);
+            });
+        } else {
+            this.goToPage(location.pathname, false);
+        }
 
         document.addEventListener('click', (event: MouseEvent) => {
             if (event.target.constructor.name === 'HTMLAnchorElement') {
@@ -69,6 +81,13 @@ export default class Modula
         this.router.navigate(path, pushState);
     }
 
+    /**
+     * Returns the tag name for the given Component.
+     *
+     * @param {new () => Component} component
+     *
+     * @returns {string}
+     */
     public findComponentTag(component: { new (): Component }): string
     {
         const componentDefinition: IComponentDefinition = this.components.find((definedComponent: IComponentDefinition) => {
@@ -76,6 +95,16 @@ export default class Modula
         });
 
         return componentDefinition?.tag;
+    }
+
+    /**
+     * Instantiates and returns the 404 component.
+     *
+     * @returns {Component}
+     */
+    public getPageNotFoundComponent(): Component
+    {
+        return document.createElement(this.findComponentTag(this.pageNotFound ?? ModulaPageNotFound)) as Component;
     }
 
     public getContainer(): HTMLElement

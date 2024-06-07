@@ -1,7 +1,7 @@
 import Component from './Component';
 import html from '../Core/Template';
 
-export default class PageNotFoundComponent extends Component
+export default class ModulaPageNotFound extends Component
 {
     template(): HTMLElement
     {

@@ -1,7 +1,7 @@
 import IRoute from '../Interface/IRoute';
 import Modula from './Modula';
 import Component from '../Components/Component';
-import PageNotFoundComponent from '../Components/PageNotFoundComponent';
+import ModulaPageNotFound from '../Components/ModulaPageNotFound';
 
 export default class Router
 {
@@ -43,12 +43,14 @@ export default class Router
             const component: Component = document.createElement(this.app.findComponentTag(route.component)) as Component;
             const params = this.extractParams(route, match);
 
+            component.setParams(params);
+
             this.mountComponent(component);
 
             return;
         }
 
-        this.mountComponent(document.createElement(this.app.findComponentTag(PageNotFoundComponent)) as Component);
+        this.mountComponent(this.app.getPageNotFoundComponent());
     }
 
     private mountComponent(component: Component): void
