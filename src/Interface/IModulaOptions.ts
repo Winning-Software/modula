@@ -7,4 +7,5 @@ export default interface IModulaOptions
     routes?: IRoute[];
     components?: IComponentDefinition[];
     template?: new () => Component;
+    pageNotFound?: new () => Component;
 }
