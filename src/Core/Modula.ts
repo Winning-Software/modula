@@ -14,20 +14,24 @@ export default class Modula
     constructor(options: IModulaOptions = {})
     {
         this.setup(options);
-        this.goToPage(location.pathname, false);
     }
 
     private setup(options: IModulaOptions)
     {
         this.createRoot();
         this.registerComponents(options.components ?? []);
+        this.registerRoutes(options.routes ?? []);
 
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
             this.root.append(this.template);
-        }
 
-        this.registerRoutes(options.routes ?? []);
+            this.template.addEventListener('componentRendered', () => {
+                this.goToPage(location.pathname, false);
+            });
+        } else {
+            this.goToPage(location.pathname, false);
+        }
 
         document.addEventListener('click', (event: MouseEvent) => {
             if (event.target.constructor.name === 'HTMLAnchorElement') {

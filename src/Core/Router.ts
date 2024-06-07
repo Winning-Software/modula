@@ -43,6 +43,8 @@ export default class Router
             const component: Component = document.createElement(this.app.findComponentTag(route.component)) as Component;
             const params = this.extractParams(route, match);
 
+            component.setParams(params);
+
             this.mountComponent(component);
 
             return;

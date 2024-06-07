@@ -11,7 +11,9 @@ export default class TemplateComponent extends Component
                 <nav-bar></nav-bar>
             </header>
             <slot></slot>
-            <footer></footer>
+            <footer>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, rem!</p>
+            </footer>
         `;
     }
 }

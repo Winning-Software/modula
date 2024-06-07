@@ -1,6 +1,7 @@
 import IRoute from '../src/Interface/IRoute';
 import HomePage from '../src/Components/HomePage';
 import AboutPage from "../src/Components/AboutPage";
+import ProfileComponent from '../src/Components/ProfileComponent';
 
 const routes: IRoute[] = [
     {
@@ -10,6 +11,10 @@ const routes: IRoute[] = [
     {
         path: '/about',
         component: AboutPage,
+    },
+    {
+        path: '/profile/:user',
+        component: ProfileComponent,
     }
 ];
 
