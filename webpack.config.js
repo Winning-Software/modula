@@ -5,16 +5,15 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const entries = {
-	app: './src/app.ts',
-	styles: './src/styles/app.scss'
+	modula: './src/modula.ts',
 }
-const ignoreFiles = Object.keys(entries).reduce((acc, key) => {
-	if (entries[key].endsWith('.scss')) {
-		acc.push(`${key}.js`);
-	}
-
-	return acc;
-}, []);
+// const ignoreFiles = Object.keys(entries).reduce((acc, key) => {
+// 	if (entries[key].endsWith('.scss')) {
+// 		acc.push(`${key}.js`);
+// 	}
+//
+// 	return acc;
+// }, []);
 
 module.exports = (env, options) => {
 	const isProduction = options.mode === 'production';
@@ -28,32 +27,32 @@ module.exports = (env, options) => {
 					use: 'ts-loader',
 					exclude: /node_modules/
 				},
-				{
-					test: /\.s[ac]ss$/i,
-					use: [
-						MiniCssExtractPlugin.loader,
-						'css-loader',
-						'sass-loader'
-					],
-					exclude: /node_modules/
-				},
+				// {
+				// 	test: /\.s[ac]ss$/i,
+				// 	use: [
+				// 		MiniCssExtractPlugin.loader,
+				// 		'css-loader',
+				// 		'sass-loader'
+				// 	],
+				// 	exclude: /node_modules/
+				// },
 			],
 		},
 		plugins: [
-			new MiniCssExtractPlugin({
-				filename: 'styles/[name].css',
-			}),
-			new IgnoreEmitPlugin(ignoreFiles)
+			// new MiniCssExtractPlugin({
+			// 	filename: 'styles/[name].css',
+			// }),
+			// new IgnoreEmitPlugin(ignoreFiles)
 		],
 		optimization: isProduction ? {
 			minimize: true,
 			minimizer: [
 				new TerserPlugin(),
-				new CssMinimizerPlugin(),
+				// new CssMinimizerPlugin(),
 			]
 		} : {},
 		resolve: {
-			extensions: ['.ts', '.js', '.css', '.scss']
+			extensions: ['.ts', '.js']
 		},
 		watchOptions: {
 			poll: true,
@@ -61,7 +60,10 @@ module.exports = (env, options) => {
 		},
 		output: {
 			filename: '[name].js',
-			path: path.resolve(__dirname, 'public/assets/')
+			path: path.resolve(__dirname, 'dist/src/'),
+			library: 'modula',
+			libraryTarget: 'umd',
+			globalObject: 'this'
 		}
 	}
 }

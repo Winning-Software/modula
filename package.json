@@ -1,5 +1,6 @@
 {
   "name": "modula",
+  "main": "./dist/src/modula.js",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development",
     "build": "webpack --config webpack.config.js --mode=production",
