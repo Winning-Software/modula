@@ -1,5 +1,6 @@
 {
-  "name": "modula",
+  "name": "@dannyxcii/modula",
+  "version": "0.1.0",
   "main": "./dist/src/modula.js",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development",
@@ -8,6 +9,7 @@
     "serve": "cd ./public && npx serve"
   },
   "devDependencies": {
+    "@dannyxcii/badger": "^0.4.2",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "ignore-emit-webpack-plugin": "^2.0.6",
