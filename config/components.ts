@@ -2,9 +2,9 @@ import IComponentDefinition from '../src/Interface/IComponentDefinition';
 import HomePage from '../src/Components/HomePage';
 import NavBar from '../src/Components/NavBar';
 import TemplateComponent from '../src/Components/TemplateComponent';
-import PageNotFoundComponent from '../src/Components/PageNotFoundComponent';
+import ModulaPageNotFound from '../src/Components/ModulaPageNotFound';
 
-const components: IComponentDefinition[] = [
+const bundledComponents: IComponentDefinition[] = [
     {
         tag: 'home-page',
         component: HomePage,
@@ -18,9 +18,9 @@ const components: IComponentDefinition[] = [
         component: TemplateComponent,
     },
     {
-        tag: 'page-not-found',
-        component: PageNotFoundComponent,
+        tag: 'modula-page-not-found',
+        component: ModulaPageNotFound,
     },
 ];
 
-export default components;
+export default bundledComponents;
