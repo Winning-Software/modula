@@ -12,6 +12,8 @@ export default abstract class Component<T = {}> extends HTMLElement
     connectedCallback(): void
     {
         this.setPropsFromAttributes();
+        this.render();
+
         this.fetchData().then(data => {
             this.data = data;
             this.render();
@@ -36,6 +38,7 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     private render(): void
     {
+        this.innerHTML = '';
         this.append(this.template());
     }
 
@@ -44,7 +47,7 @@ export default abstract class Component<T = {}> extends HTMLElement
         return true;
     }
 
-    abstract template(): HTMLElement;
+    protected abstract template(): HTMLElement;
 
     private setPropsFromAttributes(): void
     {
