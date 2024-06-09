@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2024-06-09
+### Added
+- Added new abstract components for specifying `PageComponent` and `TemplateComponent`
+- Components loaded via a route should now extend `PageComponent`
+- Components used as Modula's `template` option should extend `TemplateComponent`
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.2.0] - 2024-06-08
 ### Added
 - Added unit tests

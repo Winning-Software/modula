@@ -1,6 +1,6 @@
 {
   "name": "@dannyxcii/modula",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./dist/src/modula.js",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development",
