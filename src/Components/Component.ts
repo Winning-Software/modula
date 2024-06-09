@@ -15,17 +15,13 @@ export default abstract class Component<T = {}> extends HTMLElement
     {
         if (!this.props) this.setPropsFromAttributes();
 
-        this.render();
+        if (!this.isPageComponent && !this.isTemplateComponent) {
+            this.render();
+        }
 
         this.fetchData().then(data => {
             this.data = data;
             this.render();
-
-            this.dispatchEvent(new CustomEvent('componentRendered', {
-                detail: {
-                    target: this
-                }
-            }));
         });
     }
 
@@ -48,6 +44,11 @@ export default abstract class Component<T = {}> extends HTMLElement
     {
         this.innerHTML = '';
         this.append(this.template());
+        this.dispatchEvent(new CustomEvent('componentRendered', {
+            detail: {
+                target: this
+            }
+        }));
     }
 
     protected async fetchData(): Promise<any>
