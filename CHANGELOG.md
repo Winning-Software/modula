@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2024-06-09
+### Added
+- Added new abstract components for specifying `PageComponent` and `TemplateComponent`
+
+### Changed
+- Now renders components prior to loading data, then re-renders once data is loaded.
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.2.0] - 2024-06-08
 ### Added
 - Added unit tests

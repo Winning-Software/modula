@@ -1,6 +1,8 @@
 export default abstract class Component<T = {}> extends HTMLElement
 {
     public props: T;
+    public isPageComponent: boolean = false;
+    public isTemplateComponent: boolean = false;
     protected params: { [key: string]: string };
     protected data: any = null;
 
@@ -11,13 +13,19 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     connectedCallback(): void
     {
-        this.setPropsFromAttributes();
+        if (!this.props) this.setPropsFromAttributes();
+
         this.render();
 
         this.fetchData().then(data => {
             this.data = data;
             this.render();
-            this.dispatchEvent(new CustomEvent('componentRendered'));
+
+            this.dispatchEvent(new CustomEvent('componentRendered', {
+                detail: {
+                    target: this
+                }
+            }));
         });
     }
 

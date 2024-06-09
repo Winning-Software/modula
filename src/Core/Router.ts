@@ -1,7 +1,6 @@
 import IRoute from '../Interface/IRoute';
 import Modula from './Modula';
 import Component from '../Components/Component';
-import ModulaPageNotFound from '../Components/ModulaPageNotFound';
 
 export default class Router
 {

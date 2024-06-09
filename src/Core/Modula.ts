@@ -34,8 +34,13 @@ export default class Modula
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
             this.root.append(this.template);
 
-            this.template.addEventListener('componentRendered', () => {
-                this.goToPage(location.pathname, false);
+            this.template.addEventListener('componentRendered', (event: CustomEvent) => {
+                const component: Component = event.detail.target;
+
+                console.log(component.isTemplateComponent, component.isPageComponent);
+                if (!component.isPageComponent && !component.isTemplateComponent) return;
+
+                this.goToPage(location.pathname);
             });
         } else {
             this.goToPage(location.pathname, false);
