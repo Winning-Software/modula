@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2024-06-09
+### Added
+- N/A
+
+### Changed
+- General formatting updates
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.3.0] - 2024-06-09
 ### Added
 - Added new abstract components for specifying `PageComponent` and `TemplateComponent`

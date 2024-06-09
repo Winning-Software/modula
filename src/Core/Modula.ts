@@ -1,10 +1,10 @@
 import bundledComponents from '../../config/components';
+import Component from '../Components/Component';
 import IComponentDefinition from '../Interface/IComponentDefinition';
 import IModulaOptions from '../Interface/IModulaOptions';
-import Component from '../Components/Component';
-import Router from './Router';
 import IRoute from '../Interface/IRoute';
 import ModulaPageNotFound from '../Components/ModulaPageNotFound';
+import Router from './Router';
 
 export default class Modula
 {
@@ -19,7 +19,7 @@ export default class Modula
         this.setup(options);
     }
 
-    private setup(options: IModulaOptions)
+    private setup(options: IModulaOptions): void
     {
         this.createRoot();
         this.registerComponents(bundledComponents);
@@ -102,7 +102,8 @@ export default class Modula
     }
 
     /**
-     * Instantiates and returns the 404 component.
+     * Instantiates and returns the 404 component. You should't ever need to call this yourself,
+     * it is called within the internal routing system.
      *
      * @returns {Component}
      */
@@ -111,6 +112,11 @@ export default class Modula
         return document.createElement(this.findComponentTag(this.pageNotFound ?? ModulaPageNotFound)) as Component;
     }
 
+    /**
+     * Returns the app container element.
+     *
+     * @returns {HTMLElement}
+     */
     public getContainer(): HTMLElement
     {
         return this.template ?? this.root;
