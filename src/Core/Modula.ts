@@ -37,7 +37,6 @@ export default class Modula
             this.template.addEventListener('componentRendered', (event: CustomEvent) => {
                 const component: Component = event.detail.target;
 
-                console.log(component.isTemplateComponent, component.isPageComponent);
                 if (!component.isPageComponent && !component.isTemplateComponent) return;
 
                 this.goToPage(location.pathname);
