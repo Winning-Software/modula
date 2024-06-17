@@ -21,6 +21,27 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.3.2] - 2024-06-09
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- Fixed issue where API requests were firing twice from components
+
+### Security
+- N/A
+
+---
+
 ## [0.3.1] - 2024-06-09
 ### Added
 - N/A
