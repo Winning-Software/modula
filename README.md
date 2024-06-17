@@ -2,8 +2,8 @@
 
 <div>
 <!-- JS Coverage Badge -->
-<img src="https://img.shields.io/badge/JS Coverage-85.94%25-yellow" alt="JS Coverage 85.94%">
+<img src="https://img.shields.io/badge/JS Coverage-75.35%25-orange" alt="JS Coverage 75.35%">
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.3.1-blue" alt="Version 0.3.1">
+<img src="https://img.shields.io/badge/Version-0.4.0-blue" alt="Version 0.4.0">
 </div>
