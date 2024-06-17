@@ -22,6 +22,13 @@ export default abstract class Component<T = {}> extends HTMLElement
         this.fetchData().then(data => {
             this.data = data;
             this.render();
+            this.afterMount();
+
+            this.dispatchEvent(new CustomEvent('componentRendered', {
+                detail: {
+                    target: this
+                }
+            }));
         });
     }
 
@@ -72,5 +79,10 @@ export default abstract class Component<T = {}> extends HTMLElement
         });
 
         this.props = props as T;
+    }
+
+    protected afterMount(): void
+    {
+        return;
     }
 }

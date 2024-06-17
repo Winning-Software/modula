@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-06-17
+### Added
+- Include API classes in core `@dannyxcii/modula` package (removed from `@dannyxcii/create-modula-app`)
+- Added `afterMount` method on `Component` to allow for adding event listeners and other post-render functionality
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.3.2] - 2024-06-09
 ### Added
 - N/A
