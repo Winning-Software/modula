@@ -47,11 +47,13 @@ export default class Modula
 
         document.addEventListener('click', (event: MouseEvent) => {
             if (event.target.constructor.name === 'HTMLAnchorElement') {
-                event.preventDefault();
-
                 const target: HTMLAnchorElement = event.target as HTMLAnchorElement;
 
-                this.goToPage(target.pathname);
+                if (target.host === window.location.host) {
+                    event.preventDefault();
+
+                    this.goToPage(target.pathname);
+                }
             }
         });
     }
