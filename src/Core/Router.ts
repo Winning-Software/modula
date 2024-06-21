@@ -1,6 +1,7 @@
 import IRoute from '../Interface/IRoute';
 import Component from '../Components/Component';
 import Modula from './Modula';
+import ApplicationStore from './ApplicationStore';
 
 export default class Router
 {
@@ -25,6 +26,12 @@ export default class Router
 
     public navigate(path: string, pushState: boolean = true): void
     {
+        const route = this.routes.find(route => route.pattern.test(path));
+
+        if (route && route.requireAuth && !this.isUserAuthenticated()) {
+            path = this.app.getAuthRedirectPath();
+        }
+
         if (pushState) {
             history.pushState({}, '', path);
         }
@@ -76,5 +83,14 @@ export default class Router
         });
 
         return params;
+    }
+
+    private isUserAuthenticated(): boolean
+    {
+        if (ApplicationStore.get(this.app.getUserProp()) === undefined) {
+            return false;
+        }
+
+        return ApplicationStore.get(this.app.getUserProp()) !== null;
     }
 }

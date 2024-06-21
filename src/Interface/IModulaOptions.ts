@@ -8,4 +8,6 @@ export default interface IModulaOptions
     components?: IComponentDefinition[];
     template?: new () => Component;
     pageNotFound?: new () => Component;
+    userProp?: string;
+    authRedirectPath?: string;
 }
