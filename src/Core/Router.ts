@@ -29,7 +29,7 @@ export default class Router
         const route = this.routes.find(route => route.pattern.test(path));
 
         if (route && route.requireAuth && !this.isUserAuthenticated()) {
-            path = '/login';
+            path = this.app.getAuthRedirectPath();
         }
 
         if (pushState) {
@@ -87,10 +87,10 @@ export default class Router
 
     private isUserAuthenticated(): boolean
     {
-        if (ApplicationStore.get('user') === undefined) {
+        if (ApplicationStore.get(this.app.getUserProp()) === undefined) {
             return false;
         }
 
-        return ApplicationStore.get('user') !== null;
+        return ApplicationStore.get(this.app.getUserProp()) !== null;
     }
 }

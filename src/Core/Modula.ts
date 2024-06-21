@@ -13,6 +13,8 @@ export default class Modula
     private template: Component;
     private components: IComponentDefinition[] = [];
     private pageNotFound: new () => Component;
+    private authRedirectPath: string;
+    private userProp: string;
 
     constructor(options: IModulaOptions = {})
     {
@@ -29,6 +31,14 @@ export default class Modula
         if (options.pageNotFound !== undefined) {
             this.pageNotFound = options.pageNotFound;
         }
+
+        this.authRedirectPath = options.authRedirectPath !== undefined
+            ? options.authRedirectPath
+            : '/login';
+
+        this.userProp = options.userProp !== undefined
+            ? options.userProp
+            : 'user';
 
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
@@ -80,6 +90,16 @@ export default class Modula
         routes.forEach((route: IRoute) => {
             this.router.addRoute(route);
         });
+    }
+
+    public getAuthRedirectPath(): string
+    {
+        return this.authRedirectPath;
+    }
+
+    public getUserProp(): string
+    {
+        return this.userProp;
     }
 
     public goToPage(path: string, pushState: boolean = true): void
