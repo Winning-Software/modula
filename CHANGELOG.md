@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2024-06-21
+### Added
+- Implement `ApplicationStore` for global variable storage
+- Add route protection via `requireAuth` route option
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- Fixed issue with external links not working
+
+### Security
+- N/A
+
+---
+
 ## [0.4.0] - 2024-06-17
 ### Added
 - Include API classes in core `@dannyxcii/modula` package (removed from `@dannyxcii/create-modula-app`)
@@ -14,6 +36,9 @@ All notable changes to this project will be documented in this file.
 - N/A
 
 ### Removed
+- N/A
+
+### Fixed
 - N/A
 
 ### Security
