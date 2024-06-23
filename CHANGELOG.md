@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2024-06-23
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- Fixed issue with SPA functionality when links contain other elements
+
+### Security
+- N/A
+
+---
+
 ## [0.5.0] - 2024-06-21
 ### Added
 - Implement `ApplicationStore` for global variable storage

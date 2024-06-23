@@ -56,14 +56,13 @@ export default class Modula
         }
 
         document.addEventListener('click', (event: MouseEvent) => {
-            if (event.target.constructor.name === 'HTMLAnchorElement') {
-                const target: HTMLAnchorElement = event.target as HTMLAnchorElement;
+            const eventTarget: HTMLElement = event.target as HTMLElement;
+            const anchorElement = eventTarget.closest('a');
 
-                if (target.host === window.location.host) {
-                    event.preventDefault();
+            if (anchorElement && anchorElement.host === window.location.host) {
+                event.preventDefault();
 
-                    this.goToPage(target.pathname);
-                }
+                this.goToPage(anchorElement.pathname);
             }
         });
     }
