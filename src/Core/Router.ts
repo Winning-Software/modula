@@ -61,7 +61,7 @@ export default class Router
 
     private mountComponent(component: Component): void
     {
-        const slot: HTMLSlotElement = this.app.getContainer().querySelector('slot');
+        const slot: HTMLSlotElement = this.app.getContainer().querySelector('slot[name="app-template"]');
 
         if (slot) {
             slot.innerHTML = '';

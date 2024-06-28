@@ -5,12 +5,14 @@ import IModulaOptions from '../Interface/IModulaOptions';
 import IRoute from '../Interface/IRoute';
 import ModulaPageNotFound from '../Components/ModulaPageNotFound';
 import Router from './Router';
+import ApplicationStore from './ApplicationStore';
 
 export default class Modula
 {
     private root: HTMLElement;
     private router: Router;
     private template: Component;
+    private guestTemplate: Component;
     private components: IComponentDefinition[] = [];
     private pageNotFound: new () => Component;
     private authRedirectPath: string;
@@ -18,14 +20,14 @@ export default class Modula
 
     constructor(options: IModulaOptions = {})
     {
-        this.setup(options);
+        this.setup(options).then();
     }
 
-    private setup(options: IModulaOptions): void
+    private async setup(options: IModulaOptions): Promise<void>
     {
         this.createRoot();
-        this.registerComponents(bundledComponents);
-        this.registerComponents(options.components ?? []);
+        await this.registerComponents(bundledComponents);
+        await this.registerComponents(options.components ?? []);
         this.registerRoutes(options.routes ?? []);
 
         if (options.pageNotFound !== undefined) {
@@ -40,9 +42,25 @@ export default class Modula
             ? options.userProp
             : 'user';
 
+        if (options.guestTemplate !== undefined) {
+            this.guestTemplate = document.createElement(this.findComponentTag(options.guestTemplate)) as Component;
+            this.guestTemplate.addEventListener('componentRendered', (event: CustomEvent) => {
+                const component: Component = event.detail.target;
+
+                if (!component.isPageComponent && !component.isTemplateComponent) return;
+
+                this.goToPage(location.pathname);
+            })
+        }
+
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
-            this.root.append(this.template);
+
+            if (this.guestTemplate && !ApplicationStore.get(this.userProp)) {
+                this.root.append(this.guestTemplate);
+            } else {
+                this.root.append(this.template);
+            }
 
             this.template.addEventListener('componentRendered', (event: CustomEvent) => {
                 const component: Component = event.detail.target;
@@ -74,12 +92,13 @@ export default class Modula
         document.body.append(this.root);
     }
 
-    private registerComponents(components: IComponentDefinition[]): void
+    private async registerComponents(components: IComponentDefinition[]): Promise<void>
     {
-        components.forEach((component: IComponentDefinition) => {
+        for (const component of components) {
             customElements.define(component.tag, component.component);
             this.components.push(component);
-        });
+            await customElements.whenDefined(component.tag);
+        }
     }
 
     private registerRoutes(routes: IRoute[]): void
@@ -140,6 +159,10 @@ export default class Modula
      */
     public getContainer(): HTMLElement
     {
+        if (this.guestTemplate && !ApplicationStore.get(this.userProp)) {
+            return this,this.guestTemplate;
+        }
+
         return this.template ?? this.root;
     }
 }

@@ -5,6 +5,7 @@ export default abstract class Component<T = {}> extends HTMLElement
     public isTemplateComponent: boolean = false;
     protected params: { [key: string]: string };
     protected data: any = null;
+    protected namedSlot?: string|null = null;
 
     /**
      * Called each time a component is mounted to the DOM
@@ -49,8 +50,19 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     private render(): void
     {
+        const template: HTMLElement = this.template();
+        const slot: HTMLSlotElement = template.querySelector('slot');
+
+        if (slot && this.namedSlot && slot.name === this.namedSlot) {
+            const slotElements = this.querySelectorAll(`[slot="${this.namedSlot}"]`);
+
+            slotElements.forEach(el => {
+                template.querySelector('slot').append(el);
+            });
+        }
+
         this.innerHTML = '';
-        this.append(this.template());
+        this.append(template);
         this.dispatchEvent(new CustomEvent('componentRendered', {
             detail: {
                 target: this
@@ -71,10 +83,16 @@ export default abstract class Component<T = {}> extends HTMLElement
         const props: any = {};
 
         attrs.forEach((attr: string) => {
+            const camelCaseAttr = attr.split('-').map((part, index) => {
+                return index === 0 ? part.toLowerCase() : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+            }).join('');
+
+            const attrValue = this.getAttribute(attr);
+
             try {
-                props[attr] = JSON.parse(this.getAttribute(attr) || '');
+                props[camelCaseAttr] = JSON.parse(attrValue || '');
             } catch (e) {
-                props[attr] = this.getAttribute(attr);
+                props[camelCaseAttr] = attrValue;
             }
         });
 

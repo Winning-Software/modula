@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.1] - 2024-06-23
+## [0.6.0] - 2024-06-23
 ### Added
-- N/A
+- Now supports rendering of components inside component tags
+- Added new `guestTemplate` option to `Modula`, to allow rendering a different template for unauthenticated users
 
 ### Changed
-- N/A
+- Correctly convert component props from snake case (`prop-name`) to camel case (`propName`)
 
 ### Deprecated
 - N/A
