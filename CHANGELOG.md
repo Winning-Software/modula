@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Correctly convert component props from snake case (`prop-name`) to camel case (`propName`)
+- Internal links now require the `nav-link` CSS class
 
 ### Deprecated
 - N/A
