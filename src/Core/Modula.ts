@@ -77,7 +77,7 @@ export default class Modula
             const eventTarget: HTMLElement = event.target as HTMLElement;
             const anchorElement = eventTarget.closest('a');
 
-            if (anchorElement && anchorElement.host === window.location.host) {
+            if (anchorElement && anchorElement.host === window.location.host && anchorElement.classList.contains('nav-link')) {
                 event.preventDefault();
 
                 this.goToPage(anchorElement.pathname);

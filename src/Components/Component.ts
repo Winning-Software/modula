@@ -14,6 +14,11 @@ export default abstract class Component<T = {}> extends HTMLElement
      */
     connectedCallback(): void
     {
+        this.update();
+    }
+
+    public update()
+    {
         if (!this.props) this.setPropsFromAttributes();
 
         if (!this.isPageComponent && !this.isTemplateComponent) {
@@ -48,7 +53,7 @@ export default abstract class Component<T = {}> extends HTMLElement
      *
      * @returns {void}
      */
-    private render(): void
+    protected render(): void
     {
         const template: HTMLElement = this.template();
         const slot: HTMLSlotElement = template.querySelector('slot');
@@ -62,7 +67,7 @@ export default abstract class Component<T = {}> extends HTMLElement
         }
 
         this.innerHTML = '';
-        this.append(template);
+        this.appendChild(template);
         this.dispatchEvent(new CustomEvent('componentRendered', {
             detail: {
                 target: this
