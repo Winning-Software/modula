@@ -26,8 +26,7 @@ export default class Modula
     private async setup(options: IModulaOptions): Promise<void>
     {
         this.createRoot();
-        await this.registerComponents(bundledComponents);
-        await this.registerComponents(options.components ?? []);
+        await this.registerAllComponents(options);
         this.registerRoutes(options.routes ?? []);
 
         if (options.pageNotFound !== undefined) {
@@ -56,11 +55,7 @@ export default class Modula
         if (options.template !== undefined) {
             this.template = document.createElement(this.findComponentTag(options.template)) as Component;
 
-            if (this.guestTemplate && !ApplicationStore.get(this.userProp)) {
-                this.root.append(this.guestTemplate);
-            } else {
-                this.root.append(this.template);
-            }
+            this.appendTemplateToRoot();
 
             this.template.addEventListener('componentRendered', (event: CustomEvent) => {
                 const component: Component = event.detail.target;
@@ -73,6 +68,26 @@ export default class Modula
             this.goToPage(location.pathname, false);
         }
 
+        this.addGlobalNavLinkHandler();
+    }
+
+    private async registerAllComponents(options: IModulaOptions): Promise<void>
+    {
+        await this.registerComponents(bundledComponents);
+        await this.registerComponents(options.components ?? []);
+    }
+
+    private appendTemplateToRoot(): void
+    {
+        if (this.guestTemplate && !ApplicationStore.get(this.userProp)) {
+            this.root.append(this.guestTemplate);
+        } else {
+            this.root.append(this.template);
+        }
+    }
+
+    private addGlobalNavLinkHandler(): void
+    {
         document.addEventListener('click', (event: MouseEvent) => {
             const eventTarget: HTMLElement = event.target as HTMLElement;
             const anchorElement = eventTarget.closest('a');
@@ -85,6 +100,11 @@ export default class Modula
         });
     }
 
+    /**
+     * Creates a root element and appends to the DOM. All component HTML is rendered inside the root element.
+     *
+     * @return {void}
+     */
     private createRoot(): void
     {
         this.root = document.createElement('div');
@@ -92,6 +112,13 @@ export default class Modula
         document.body.append(this.root);
     }
 
+    /**
+     * Register the applications Components as custom HTML elements.
+     *
+     * @param {IComponentDefinition} components
+     *
+     * @return {Promise<void>}
+     */
     private async registerComponents(components: IComponentDefinition[]): Promise<void>
     {
         for (const component of components) {
@@ -142,7 +169,7 @@ export default class Modula
     }
 
     /**
-     * Instantiates and returns the 404 component. You should't ever need to call this yourself,
+     * Instantiates and returns the 404 component. You shouldn't ever need to call this yourself,
      * it is called within the internal routing system.
      *
      * @returns {Component}

@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2024-08-16
+### Added
+- N/A
+
+### Changed
+- Modified the `setup` method in `Modula` to reduce method size - split some code into smaller methods
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.6.0] - 2024-06-23
 ### Added
 - Now supports rendering of components inside component tags
